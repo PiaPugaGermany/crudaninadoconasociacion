@@ -1,0 +1,58 @@
+<p id="notice"><%= notice %></p>
+
+<h1>  <strong>Compañia:</strong>
+  <%= @company.name %></h1>
+
+<%= form_with(model: [ @company, @employee ]) do |form| %>
+  <div class="field form-group">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name, id: :employee_first_name, class: 'form-control' %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name, id: :employee_last_name, class: 'form-control' %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :email %>
+    <%= form.text_field :email, id: :employee_email, class: 'form-control' %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :area_id %>
+    <%= form.select :area_id, @areas.pluck(:name,:id), class: 'form-control' %>
+  </div>
+
+  <div class="actions form-group">
+    <%= form.submit "Create Employee", class: 'btn btn-info' %>
+  </div>
+<% end %>
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>
+
+<br><br>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>E-mail</th>
+      <th>Area</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @company.employees.each do |e| %>
+      <tr>
+        <td><%= e.first_name %></td>
+        <td><%= e.last_name %></td>
+        <td><%= e.email %></td>
+        <td><%= e.area.name %></td>
+        <td><%= link_to "Let go", company_employee_path(@company, e), method: :delete, data: {confirm: 'Are you sure? maybe the employee has family'}, class: 'badge badge-danger' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
